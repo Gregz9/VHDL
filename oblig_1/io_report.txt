@@ -1,0 +1,32 @@
+
+IO-report based on document file on Zedboard: 
+	
+	Table 12 - Push Button Connections 
+		BTNU	PL	T18
+		BTNR	PL	R18
+		BTND	PL	R16
+		BTNC	PL	P16
+		BTNL 	PL	N15
+		PB1		PS	D13 (MIO 50)
+		PB2		PS	C10	(MIO 51)
+
+	Table 13 - DIP Switch Connections 
+		SW0		F22
+		SW1		G22
+		SW2		H22
+		SW3		F21
+		SW4		H19
+		SW5		H18
+		SW6		H17
+		SW7		M15
+
+	Table 14 - LED Connections 
+		LD0		T22
+		LD1		T21
+		LD2		U22
+		LD3		U21
+		LD4		V22
+		LD5		W22
+		LD6		U19
+		LD7		U14
+
