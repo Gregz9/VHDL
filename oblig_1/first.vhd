@@ -54,7 +54,7 @@ begin
   end process STORING;
 
   -- Concurrent signal assignment
-  Max_count <= '1' when count = "1111" else '0';
-  min_count <= '1' when count = "0000" else '0'; 
+  Max_count <= '1' when count = "1111" and up = '1' else '0';
+  min_count <= '1' when count = "0000" and up = '0' else '0'; 
 
 end MY_FIRST_ARCH;
