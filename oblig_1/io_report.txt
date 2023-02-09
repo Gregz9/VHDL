@@ -1,4 +1,7 @@
 
+Information shown in this file is collected from document: 
+	ZedBoard_HW_UG_v1_1.pdf
+
 IO-report based on document file on Zedboard: 
 	
 	Table 12 - Push Button Connections 
