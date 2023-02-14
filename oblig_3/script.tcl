@@ -11,3 +11,6 @@ gtkwave::/Edit/Data_Format/Binary
 
 # zoom to fit
 gtkwave::/Time/Zoom/Zoom_Full
+
+# export image of wave
+# gtkwave::/File/Grab_To_File wave.png
