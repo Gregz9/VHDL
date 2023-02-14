@@ -13,22 +13,21 @@ entity delay is
 end delay;
 
 architecture rtl1 of delay is 
-  signal data1, data3, data5 : std_logic_vector(7 downto 0);
+  signal data1, data2, data3, data4, data5 : std_logic_vector(7 downto 0);
 begin  
   process (rst_n, mclk) is    
-    variable data2, data4 : std_logic_vector(7 downto 0);
   begin
     if (rst_n = '0') then       
       data1    <= (others => '0');
-      data2    := (others => '0');
+      data2    <= (others => '0');
       data3    <= (others => '0');
-      data4    := (others => '0');
+      data4    <=  (others => '0');
       data5    <= (others => '0');
     elsif rising_edge(mclk) then
       data1    <= indata;
-      data2    := data1;
+      data2    <= data1;
       data3    <= data2;
-      data4    := data3;
+      data4    <= data3;
       data5    <= data4;
     end if;
   end process;
