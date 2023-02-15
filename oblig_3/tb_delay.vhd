@@ -39,6 +39,6 @@ begin
   end process P_CLK_0;
 
   rst_n  <= '1', '0' after 100 ns, '1' after 200 ns;
-  indata <= "00000000", "11110000" after 200 ns; 
+  indata <= "00000000", "11110000" after 300 ns, "00001111" after 400 ns; 
 
 end beh1;
