@@ -12,7 +12,7 @@ architecture rtl1 of variables_vs_signals is
   signal sig1, sig2 : std_logic;
 begin
   
-jorgen:  process (indata, sig1, sig2) is    
+jorgen:  process (indata) is    
     variable var1, var2 : std_logic;
   begin
     var1:= indata;
