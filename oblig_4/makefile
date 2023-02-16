@@ -10,7 +10,7 @@ SIM_TIME=1us # same as "run SIM_TIME" in questa
 	ghdl -a --std=08 $(TB_FILE)
 	ghdl -e --std=08 $(TB_ENTITY)
 	ghdl -r --std=08 $(TB_ENTITY) --stop-time=$(SIM_TIME) --vcd=waveform.vcd
-	gtkwave --script script.tcl waveform.vcd
+	gtkwave --script 8bit.tcl waveform.vcd
 
 clean:
 	rm -f *.o

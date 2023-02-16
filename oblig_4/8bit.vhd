@@ -14,19 +14,18 @@ end shifter8;
 architecture parser of shifter8 is
   
   signal reg_shift : std_logic_vector(8 downto 0); 
-  signal in_shift  : std_logic;
   
-  begin 
-    shift8: for i in 0 to 7 generate
-      dff_i: entity work.dff(rtl)
-        port map ( 
-          rst_n => rst_n, 
-          mclk => s_clk, 
-          din => reg_shift(i),
-          dout => reg_shift(i+1)
-        );
-      end generate; 
-    
+  begin
+
+    dff0 : entity work.dff(rtl) port map (rst_n, s_clk, reg_shift(0), reg_shift(1));
+    dff1 : entity work.dff(rtl) port map (rst_n, s_clk, reg_shift(1), reg_shift(2));
+    dff2 : entity work.dff(rtl) port map (rst_n, s_clk, reg_shift(2), reg_shift(3));
+    dff3 : entity work.dff(rtl) port map (rst_n, s_clk, reg_shift(3), reg_shift(4)); 
+    dff4 : entity work.dff(rtl) port map (rst_n, s_clk, reg_shift(4), reg_shift(5)); 
+    dff5 : entity work.dff(rtl) port map (rst_n, s_clk, reg_shift(5), reg_shift(6));
+    dff6 : entity work.dff(rtl) port map (rst_n, s_clk, reg_shift(6), reg_shift(7));
+    dff7 : entity work.dff(rtl) port map (rst_n, s_clk, reg_shift(7), reg_shift(8)); 
+
     reg_shift(0) <= indata;  
     s_out <= reg_shift(8);
     p_out <= reg_shift(8 downto 1); 
