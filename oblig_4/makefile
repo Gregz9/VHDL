@@ -45,7 +45,7 @@ nbit:
 	ghdl -a --std=08 $(TB_FILE3)
 	ghdl -e --std=08 $(TB_ENTITY3)
 	ghdl -r --std=08 $(TB_ENTITY3) --stop-time=$(SIM_TIME_LONGER) --vcd=$(WAVE3)
-	gtkwave --script 32bit.tcl $(WAVE3)
+	gtkwave --script nbit.tcl $(WAVE3)
 
 clean:
 	rm -f *.o
