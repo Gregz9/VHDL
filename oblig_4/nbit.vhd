@@ -1,23 +1,24 @@
 library ieee; 
 use ieee.std_logic_1164.all; 
 
-entity shifter32 is 
+entity shiftern is
+  generic( n: integer := 8);
   port ( 
       indata        : in std_logic; 
       s_clk         : in std_logic; 
       rst_n         : in std_logic; 
       s_out         : out std_logic; 
-      p_out         : out std_logic_vector(31 downto 0)
+      p_out         : out std_logic_vector(n-1 downto 0)
     );
-end shifter32; 
+end shiftern; 
 
-architecture parser of shifter32 is 
+architecture parser of shiftern is 
   
-  signal reg_shift : std_logic_vector(32 downto 0); 
+  signal reg_shift : std_logic_vector(n downto 0); 
   signal in_shift  : std_logic;
   
   begin 
-    shift8: for i in 0 to 31 generate
+    shiftn: for i in 0 to n-1 generate
       dff_i: entity work.dff(rtl)
         port map ( 
           rst_n => rst_n, 
@@ -28,8 +29,8 @@ architecture parser of shifter32 is
       end generate; 
     
     reg_shift(0) <= indata;  
-    s_out <= reg_shift(32);
-    p_out <= reg_shift(32 downto 1); 
+    s_out <= reg_shift(n);
+    p_out <= reg_shift(n downto 1); 
 
 end parser; 
 
