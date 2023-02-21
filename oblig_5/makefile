@@ -1,8 +1,7 @@
 ENTITY_FILE=pargen_sub.vhd 
-TB_FILE=tb_pargen.vhd
+TB_FILE=tb_pargen2.vhd
 TB_ENTITY=tb_pargen # name from entity declaration
 PACKAGE=subprog_pck.vhd
-
 WAVE1=pargen_wave.vcd
 
 SIM_TIME=1us # same as "run SIM_TIME" in questa
