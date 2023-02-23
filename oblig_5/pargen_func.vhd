@@ -41,21 +41,6 @@ begin
 end;
 
 begin 
-  --Method 1: parity toggle, using for, loop and variables.   
-  /* process (all) is */
-  /*   variable toggle : std_logic; */
-  /* begin */
-  /*   toggle := '0'; */
-  /*   for i in indata1'range loop */
-  /*     if indata1(i) = '1' then */
-  /*       toggle := not toggle; */
-  /*     end if;         */
-  /*   end loop; */
-  /*   toggle_parity <= toggle; */
-  /* end process; */
-
-  -- Method: 2 parity using xor function (VHDL 2008)
-  /* xor_parity <= xor(indata2);  -- Cascaded XORs  */
 
     toggle_parity <= toggle_par(indata1);
     xor_parity <= xor_par(indata2);
