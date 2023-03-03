@@ -8,7 +8,7 @@ entity FIRST is
       clk       : in  std_logic;        -- Clock signal from push button
       reset     : in  std_logic;        -- Global asynchronous reset
       load      : in  std_logic;        -- Synchronous load signal
-      up        : in  std_lofic;        -- Count up/down control signal 
+      up        : in  std_logic;        -- Count up/down control signal 
       inp       : in  std_logic_vector(3 downto 0);  -- Start value
       count     : out std_logic_vector(3 downto 0);  -- Count value
       max_count : out std_logic;        -- Indicates maximum count value
