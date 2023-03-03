@@ -8,12 +8,10 @@ entity ncounter is
     (
       clk       : in  std_logic;        -- Clock signal from push button
       reset     : in  std_logic;        -- Global asynchronous reset
-      load      : in  std_logic;        -- Synchronous load signal
       up        : in  std_logic;        -- Count up/down control signal 
       inp       : in  std_logic_vector(n-1 downto 0);  -- Start value
       count     : out std_logic_vector(n-1 downto 0);  -- Count value
       max_count : out std_logic;        -- Indicates maximum count value
-      min_count : out std_logic         -- Indicates minimum count value 
       );
 end ncounter;
 
@@ -51,7 +49,7 @@ begin
   begin
     -- Asynchronous reset
     if(reset = '1') then
-      count <= std_logic_vector(n-1 downto 0) := (others => 0);
+      count <= min;
     elsif rising_edge(CLK) then
       count <= std_logic_vector(count_i);
     end if;
@@ -59,6 +57,5 @@ begin
 
   -- Concurrent signal assignment
   Max_count <= '1' when count = max and up = '1' else '0';
-  Min_count <= '1' when count = min and up = '0' else '0'; 
 
 end beh;
