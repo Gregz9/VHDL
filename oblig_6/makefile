@@ -6,7 +6,7 @@ PACKAGE=utility_pkg.vhd
 WAVE=seg7model.vcd
 
 SIM_TIME=1us 
-SIM_TIME_LONG=5us
+SIM_TIME_LONG= 6500ns
 SIM_TIME_LONGER=640ms
 
 task_a: 

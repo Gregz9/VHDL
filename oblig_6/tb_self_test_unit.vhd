@@ -50,10 +50,14 @@ begin
     out_data <= ROM_DATA(to_integer(to_unsigned(i, 4)));
     assert(tb_d1 = out_data(9 downto 5) and tb_d0 = out_data(4 downto 0))
     report ("Wrong sequence output") severity failure;
-    wait for 220 ns;  
+    if i = 15 then 
+    wait for 210 ns; 
+    else 
+    wait for 220 ns; 
+  end if;
   end loop;
   report ("Test successful");
-  std.env.stop(0);
+  /* std.env.stop(0); */
 end process; 
 end rtl; 
 
