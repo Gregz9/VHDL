@@ -2,6 +2,7 @@ library IEEE;
 use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all;
 use  STD.textio.all;
+library work;
 
 entity self_test_unit is
   generic(
@@ -29,14 +30,14 @@ architecture beh of self_test_unit is
   signal second_tick : std_logic;
   
   -- ROM 
-  type memory_array is array(2**addr_width-1 downto 0) of std_logic_vector(data_width-1 downto 0); 
+  type ROM is array(2**addr_width-1 downto 0) of std_logic_vector(data_width-1 downto 0); 
   signal c_addr: unsigned(addr_width-1 downto 0) := "0001";  
 
 
-  impure function init_ROM(file_name:string) return memory_array is 
+  impure function init_ROM(file_name:string) return ROM is 
     file data_file : text open read_mode is file_name; 
     variable c_line: line; 
-    variable out_rom: memory_array; 
+    variable out_rom: ROM; 
   begin 
     for i in 0 to out_rom'length-1 loop 
       readline(data_file, c_line); 
@@ -45,7 +46,7 @@ architecture beh of self_test_unit is
     return out_rom; 
   end function; 
 
-  constant ROM_DATA: memory_array := init_ROM(filename); 
+  constant ROM_DATA: ROM := init_ROM(filename); 
 
   signal data_out: std_logic_vector(data_width-1 downto 0) := ROM_DATA(to_integer(c_addr-1));
   
