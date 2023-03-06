@@ -52,6 +52,7 @@ begin
     report ("Wrong sequence output") severity failure;
     wait for 220 ns;  
   end loop;
+  report ("Test successful");
   std.env.stop(0);
 end process; 
 end rtl; 
