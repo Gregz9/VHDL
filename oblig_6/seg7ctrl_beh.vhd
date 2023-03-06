@@ -2,7 +2,7 @@ library ieee;
 use ieee.std_logic_1164.all; 
 use ieee.numeric_std.all; 
 library work;
-use work.conv_bin_sig.all;
+use work.utility.all;
 
 architecture beh of seg7ctrl is
 

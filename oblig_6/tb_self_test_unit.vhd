@@ -1,6 +1,8 @@
 library IEEE; 
 use IEEE.std_logic_1164.all; 
 use IEEE.numeric_std.all; 
+library work; 
+use work.utility.all;
 
 entity tb_self_test_unit is 
 end tb_self_test_unit;

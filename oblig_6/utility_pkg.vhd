@@ -2,13 +2,13 @@ library ieee;
 use ieee.std_logic_1164.all; 
 use ieee.numeric_std.all; 
 
-package conv_bin_sig is 
+package utility is 
 
   function bin2ssd(bin: std_logic_vector(4 downto 0)) return std_logic_vector;
 
-end package conv_bin_sig; 
+end package utility; 
 
-package body conv_bin_sig is 
+package body utility is 
 
   function bin2ssd(bin: std_logic_vector(4 downto 0)) return std_logic_vector is 
     variable abcdefg: std_logic_vector(6 downto 0);  
@@ -51,4 +51,4 @@ package body conv_bin_sig is
     return abcdefg;
   end; 
 
-end package body conv_bin_sig; 
+end package body utility;
