@@ -30,9 +30,9 @@ architecture rtl of tb_seg7ctrl is
     P_CLK_0: process
     begin 
       tb_clk <= '0'; 
-      wait for 5 ns; 
+      wait for 10 ns; 
       tb_clk <= '1';
-      wait for 5 ns; 
+      wait for 10 ns; 
     end process P_CLK_0; 
   
   process begin
