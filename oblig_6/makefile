@@ -2,7 +2,7 @@ ENTITY_FILE=seg7model_ent.vhd
 ARCH_FILE=seg7model_beh.vhd 
 TB_FILE=tb_seg7model.vhd
 TB_ENTITY=tb_seg7model
-PACKAGE=conv_bin_sig_pkg.vhd
+PACKAGE=utility_pkg.vhd
 WAVE=seg7model.vcd
 
 SIM_TIME=1us 
