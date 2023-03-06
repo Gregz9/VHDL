@@ -18,9 +18,11 @@ begin
   P_CLK_0: process
     begin 
       tb_clk <= '0'; 
-      wait for 5 ns; 
+      wait for 10 ns; 
       tb_clk <= '1';
-      wait for 5 ns; 
+      wait for 10 ns; 
     end process P_CLK_0;
+
+    /* tb_reset <= '1', '0' after 580 ns; */
 end rtl; 
 

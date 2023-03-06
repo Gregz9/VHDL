@@ -20,20 +20,18 @@ end self_test_unit;
 
 architecture beh of self_test_unit is
   
-  signal data_out: std_logic_vector(data_width-1 downto 0) := "0000000000";
-  signal data_0: std_logic_vector((data_width/2)-1 downto 0) := "00000";
-  signal data_1: std_logic_vector((data_width/2)-1 downto 0) := "00000";
 
   -- Counter specific signals
-  signal s_count : integer := 0;
+  signal s_count : integer := 10;
   signal s_count_i : integer;
 
   -- Other signals
-  signal second_tick : std_logic := '0';
+  signal second_tick : std_logic;
   
   -- ROM 
   type memory_array is array(2**addr_width-1 downto 0) of std_logic_vector(data_width-1 downto 0); 
-  signal c_addr: unsigned(addr_width-1 downto 0) := "0000";  
+  signal c_addr: unsigned(addr_width-1 downto 0) := "0001";  
+
 
   impure function init_ROM(file_name:string) return memory_array is 
     file data_file : text open read_mode is file_name; 
@@ -49,7 +47,8 @@ architecture beh of self_test_unit is
 
   constant ROM_DATA: memory_array := init_ROM(filename); 
 
-
+  signal data_out: std_logic_vector(data_width-1 downto 0) := ROM_DATA(to_integer(c_addr-1));
+  
 begin
 
   COUNTING:
@@ -65,17 +64,23 @@ begin
       d1 <= "00000";
       d0 <= "00000";
     elsif rising_edge(mclk) then
-      if s_count = 10 then  -- 100 MHz clock / 50 Hz frequency = 2 * 1e6 cycles */
+      /* s_count <= s_count + 1; */
+      if second_tick = '1' then  -- 100 MHz clock / 50 Hz frequency = 2 * 1e6 cycles */
+        /* second_tick <= 1; */
         data_out <= ROM_DATA(to_integer(c_addr));
-        d1 <= data_out(data_width-1 downto data_width/2); 
-        d0 <= data_out((data_width/2)-1 downto 0);
+        d1 <= data_out(data_width-1 downto data_width/2);
+        d0 <= data_out(data_width/2-1 downto 0);
         s_count <= 0;
-        c_addr <= c_addr + 1; 
+        c_addr <= c_addr + 1;
       else
-        s_count <= s_count + 1;
+        s_count <= s_count + 1; 
       end if;
     end if;
   end process;
+  
+  second_tick <= '1' when s_count = 10 else '0'; 
+  
+
 
 end architecture;
 
