@@ -54,6 +54,5 @@ begin
   end loop;
   std.env.stop(0);
 end process; 
-    /* tb_reset <= '1', '0' after 580 ns; */
 end rtl; 
 
