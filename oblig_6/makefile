@@ -7,7 +7,7 @@ WAVE=seg7model.vcd
 
 SIM_TIME=1us 
 SIM_TIME_LONG= 6500ns
-SIM_TIME_LONGER=640ms
+SIM_TIME_LONGER=160ms
 
 task_a: 
 	ghdl -a --std=08 $(PACKAGE)
@@ -51,6 +51,23 @@ task_c:
 	ghdl -e --std=08 $(TB3_ENTITY)
 	ghdl -r --std=08 $(TB3_ENTITY) --stop-time=$(SIM_TIME_LONG) --vcd=$(WAVE3)
 	gtkwave --script seg7ctrl.tcl $(WAVE3)
+
+ENTITY4_FILE=self_test_system.vhd
+TB4_FILE=tb_self_test_system.vhd
+TB4_ENTITY=tb_self_test_system
+WAVE4=self_test_system.vcd
+
+task_d: 
+	ghdl -a --std=08 $(PACKAGE)
+	ghdl -a --std=08 $(ENTITY2_FILE)
+	ghdl -a --std=08 $(ARCH2_FILE)
+	ghdl -a --std=08 $(ENTITY3_FILE) 
+	ghdl -a --std=08 $(ENTITY4_FILE)
+	ghdl -a --std=08 $(TB4_FILE)
+	ghdl -e --std=08 $(TB4_ENTITY)
+	ghdl -r --std=08 $(TB4_ENTITY) --stop-time=$(SIM_TIME_LONGER) --vcd=$(WAVE4)
+	gtkwave --script seg7ctrl.tcl $(WAVE4)
+
 
 clean: 
 	rm -f *.o

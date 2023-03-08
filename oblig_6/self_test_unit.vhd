@@ -79,7 +79,7 @@ begin
     end if;
   end process;
   
-  second_tick <= '1' when s_count = 10 else '0'; 
+  second_tick <= '1' when s_count = 100000000 else '0'; 
   
 
 

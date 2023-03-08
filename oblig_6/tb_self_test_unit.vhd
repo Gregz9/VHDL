@@ -39,21 +39,21 @@ begin
   P_CLK_0: process
     begin 
       tb_clk <= '0'; 
-      wait for 10 ns; 
+      wait for 5 ns; 
       tb_clk <= '1';
-      wait for 10 ns; 
+      wait for 5 ns; 
     end process P_CLK_0;
  
   process begin
-    wait for 10 ns;
+    wait for 5 ns;
     for i in 0 to ROM_DATA'length-1 loop
     out_data <= ROM_DATA(to_integer(to_unsigned(i, 4)));
     assert(tb_d1 = out_data(9 downto 5) and tb_d0 = out_data(4 downto 0))
-    report ("Wrong sequence output") severity failure;
+    report ("Wrong sequence output") severity error;
     if i = 15 then 
-    wait for 210 ns; 
+    wait for 105 ns; 
     else 
-    wait for 220 ns; 
+    wait for 110 ns; 
   end if;
   end loop;
   report ("Test successful");

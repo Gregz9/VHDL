@@ -30,17 +30,17 @@ architecture rtl of tb_seg7ctrl is
     P_CLK_0: process
     begin 
       tb_clk <= '0'; 
-      wait for 10 ns; 
+      wait for 5 ns; 
       tb_clk <= '1';
-      wait for 10 ns; 
+      wait for 5 ns; 
     end process P_CLK_0; 
   
   process begin
       for i in 0 to 31 loop 
         tb_d0 <= std_logic_vector(to_unsigned(i, 5));
-        wait for 10 ms;
+        wait for 10 ms; 
         tb_d1 <= std_logic_vector(to_unsigned(i, 5));
-        wait for 10 ms;
+        wait for 10 ms; 
       end loop; 
   std.env.stop(0);
   end process;
