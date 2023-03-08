@@ -41,8 +41,8 @@ architecture mixed of self_test_system is
 
   begin 
 
-    SELF_UNIT: self_test_unit port map(mclk, reset, data_0, data_1);
+    SELF_UNIT: entity work.self_test_unit(beh) port map(mclk, reset, data_0, data_1);
 
-    SEG_CTRL: seg7ctrl port map(mclk, reset, data_0, data_1, abcdefg, c);
+    SEG_CTRL: entity work.seg7ctrl(beh) port map(mclk, reset, data_0, data_1, abcdefg, c);
 
 end architecture mixed; 
