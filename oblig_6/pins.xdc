@@ -16,9 +16,10 @@ set_property IOSTANDARD LVCMOS33 [get_ports {abcdefg[0]}]
 set_property IOSTANDARD LVCMOS33 [get_ports c]
 set_property IOSTANDARD LVCMOS33 [get_ports mclk]
 set_property IOSTANDARD LVCMOS33 [get_ports reset]
-set_property PACKAGE_PIN T18 [get_ports mclk]
-set_property PACKAGE_PIN P16 [get_ports reset]
+set_property PACKAGE_PIN Y9 [get_ports mclk]
+set_property PACKAGE_PIN R18 [get_ports reset]
 
 set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets mclk]
 
 create_clock -period 10.000 -waveform {0.000 5.000} [get_ports mclk]
+
