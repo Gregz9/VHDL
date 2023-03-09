@@ -3,6 +3,8 @@ gtkwave::addSignalsFromList tb_self_test_unit.tb_clk
 gtkwave::addSignalsFromList tb_self_test_unit.tb_reset
 gtkwave::addSignalsFromList tb_self_test_unit.tb_d0 
 gtkwave::addSignalsFromList tb_self_test_unit.tb_d1
+gtkwave::addSignalsFromList tb_self_test_unit.out_data
+
  
 
 # make binary/highlight
