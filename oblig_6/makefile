@@ -50,7 +50,7 @@ task_c:
 	ghdl -a --std=08 $(TB3_FILE)
 	ghdl -e --std=08 $(TB3_ENTITY)
 	ghdl -r --std=08 $(TB3_ENTITY) --stop-time=$(SIM_TIME_LONG) --vcd=$(WAVE3)
-	gtkwave --script seg7ctrl.tcl $(WAVE3)
+	gtkwave --script self_test_unit.tcl $(WAVE3)
 
 ENTITY4_FILE=self_test_system.vhd
 TB4_FILE=tb_self_test_system.vhd
@@ -66,7 +66,7 @@ task_d:
 	ghdl -a --std=08 $(TB4_FILE)
 	ghdl -e --std=08 $(TB4_ENTITY)
 	ghdl -r --std=08 $(TB4_ENTITY) --stop-time=$(SIM_TIME_LONGER) --vcd=$(WAVE4)
-	gtkwave --script seg7ctrl.tcl $(WAVE4)
+	gtkwave --script self_test_system.tcl $(WAVE4)
 
 
 clean: 
@@ -77,5 +77,5 @@ clean:
 	rm -f $(TB_ENTITY)
 	rm -f $(TB2_ENTITY)
 	rm -f $(TB3_ENTITY)
-	
+	rm -f $(TB4_ENTITY)
 
