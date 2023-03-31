@@ -4,7 +4,7 @@ use IEEE.numeric_std.all;
 use  STD.textio.all;
 library work;
 
-entity self_test_unit is
+entity self_test_module is
   generic(
               data_width: natural := 10; 
               addr_width: natural := 4; 
@@ -12,14 +12,13 @@ entity self_test_unit is
             );
 
   port(
-      mclk      : in std_logic;
-      reset     : in std_logic;
-      d0        : out std_logic_vector(4 downto 0); --:= "00000";
-      d1        : out std_logic_vector(4 downto 0) -- := "00000"
+      mclk          : in std_logic;
+      reset         : in std_logic;
+      duty_cycle    : out signed(data_width-1 downto 0) --:= "00000";
     );
-end self_test_unit;
+end self_test_module;
 
-architecture beh of self_test_unit is
+architecture rtl of self_test_module is
   
 
   -- Counter specific signals
@@ -30,7 +29,7 @@ architecture beh of self_test_unit is
   signal second_tick : std_logic;
   
   -- ROM 
-  type ROM is array(2**addr_width-1 downto 0) of std_logic_vector(data_width-1 downto 0); 
+  type ROM is array(2**addr_width-1 downto 0) of signed(data_width-1 downto 0); 
   signal c_addr: unsigned(addr_width-1 downto 0) := "0000";  
   signal c_addr_next: unsigned(addr_width-1 downto 0) := "0000"; 
 
@@ -48,7 +47,7 @@ architecture beh of self_test_unit is
 
   constant ROM_DATA: ROM := init_ROM(filename); 
 
-  signal data_out: std_logic_vector(data_width-1 downto 0) := ROM_DATA(to_integer(c_addr)); 
+  signal data_out: signed(data_width-1 downto 0) := ROM_DATA(to_integer(c_addr)); 
 
 begin
 
@@ -64,20 +63,18 @@ begin
     if reset = '1' then
       count_reg <= 0;
       c_addr <= "0000";
-      /* d1 <= ROM_DATA(0)(data_width-1 downto data_width/2); */
-      /* d0 <= ROM_DATA(0)(data_width/2-1 downto 0); */
+
     elsif rising_edge(mclk) then
       if second_tick = '1' then  -- 100 MHz clock / 50 Hz frequency = 2 * 1e6 cycles */
-        d1 <= data_out(data_width-1 downto data_width/2); 
-        d0 <= data_out(data_width/2-1 downto 0);
+        duty_cycle <= data_out;
         c_addr <= c_addr_next; 
         count_reg <= 0;
       else
         count_reg <= count_next; 
       end if;
+
     else 
-      d0 <= data_out(data_width/2-1 downto 0); 
-      d1 <= data_out(data_width-1 downto data_width/2); 
+      duty_cycle <= data_out; 
     end if;
   end process;
 
