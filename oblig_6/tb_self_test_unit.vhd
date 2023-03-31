@@ -30,12 +30,13 @@ architecture rtl of tb_self_test_unit is
   end function; 
 
   constant ROM_DATA: ROM := init_ROM("secret_data.txt"); 
-  signal out_data: std_logic_vector(9 downto 0) := "0000000000" ;
+  signal out_data: std_logic_vector(9 downto 0) := ROM_DATA(0);
 
 
 begin 
   UUT : entity work.self_test_unit(beh) port map(tb_clk, tb_reset, tb_d0, tb_d1);
-
+  
+  /* tb_reset <= '1', '0' after 10 ns; */
   P_CLK_0: process
     begin 
       tb_clk <= '0'; 
@@ -45,16 +46,17 @@ begin
     end process P_CLK_0;
  
   process begin
-    wait for 5 ns;
+    /* wait for 5 ns; */
     for i in 0 to ROM_DATA'length-1 loop
     out_data <= ROM_DATA(to_integer(to_unsigned(i, 4)));
+    /* if i = 15 then  */
+    wait for 5 ns; 
     assert(tb_d1 = out_data(9 downto 5) and tb_d0 = out_data(4 downto 0))
     report ("Wrong sequence output") severity error;
-    if i = 15 then 
-    wait for 105 ns; 
-    else 
-    wait for 110 ns; 
-  end if;
+    /* wait for 105 ns;  */
+    /* else  */
+    wait for 105 ns;
+  /* end if; */
   end loop;
   report ("Test successful");
   /* std.env.stop(0); */
