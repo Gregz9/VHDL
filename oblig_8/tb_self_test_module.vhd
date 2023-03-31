@@ -29,7 +29,7 @@ architecture rtl of tb_self_test_module is
     return out_rom; 
   end function; 
 
-  constant ROM_DATA: ROM := init_ROM("secret_data.txt"); 
+  constant ROM_DATA: ROM := init_ROM("rom_data.txt"); 
   signal out_data: std_logic_vector(9 downto 0) := ROM_DATA(0);
 
 

@@ -8,7 +8,7 @@ entity self_test_unit is
   generic(
               data_width: natural := 10; 
               addr_width: natural := 4; 
-              filename: string := "secret_data.txt"
+              filename: string := "rom_data.txt"
             );
 
   port(
