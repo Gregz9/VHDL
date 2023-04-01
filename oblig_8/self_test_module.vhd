@@ -8,6 +8,7 @@ entity self_test_module is
   generic(
               data_width: natural := 10; 
               addr_width: natural := 4; 
+              rom_size  : natural := 10;
               filename: string := "rom_data.txt"
             );
 
@@ -29,16 +30,16 @@ architecture rtl of self_test_module is
   signal second_tick : std_logic;
   
   -- ROM 
-  type ROM is array(2**addr_width-1 downto 0) of signed(data_width-1 downto 0); 
-  signal c_addr: unsigned(addr_width-1 downto 0) := "0000";  
-  signal c_addr_next: unsigned(addr_width-1 downto 0) := "0000"; 
+  type ROM is array(rom_size downto 0) of signed(data_width-1 downto 0); 
+  signal c_addr: integer := 0;  
+  signal c_addr_next: integer := 0; 
 
   impure function init_ROM(file_name:string) return ROM is 
     file data_file : text open read_mode is file_name; 
     variable c_line: line; 
     variable out_rom: ROM; 
   begin 
-    for i in 0 to out_rom'length-1 loop 
+    for i in 0 to rom_size loop
       readline(data_file, c_line); 
       read(c_line, out_rom(i)); 
     end loop; 
@@ -47,7 +48,7 @@ architecture rtl of self_test_module is
 
   constant ROM_DATA: ROM := init_ROM(filename); 
 
-  signal data_out: signed(data_width-1 downto 0) := ROM_DATA(to_integer(c_addr)); 
+  signal data_out: signed(data_width-1 downto 0) := ROM_DATA(c_addr); 
 
 begin
 
@@ -62,7 +63,10 @@ begin
 
     if reset = '1' then
       count_reg <= 0;
-      c_addr <= "0000";
+      c_addr <= 0;
+
+    elsif c_addr > rom_size then 
+      c_addr <= 0; 
 
     elsif rising_edge(mclk) then
       if second_tick = '1' then  -- 100 MHz clock / 50 Hz frequency = 2 * 1e6 cycles */
@@ -72,7 +76,6 @@ begin
       else
         count_reg <= count_next; 
       end if;
-
     else 
       duty_cycle <= data_out; 
     end if;
@@ -81,8 +84,8 @@ begin
   ADDRESS_READ: 
   process (c_addr)
   begin
-    c_addr_next <= c_addr + 1; 
-    data_out <= ROM_DATA(to_integer(c_addr));
+    c_addr_next <= c_addr + 1;
+    data_out <= ROM_DATA(c_addr);
   end process ADDRESS_READ;
  
   second_tick <= '1' when count_reg = 10 else '0'; 

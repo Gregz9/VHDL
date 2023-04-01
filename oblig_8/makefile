@@ -4,7 +4,7 @@ TB_ENTITY=tb_self_test_module
 PACKAGE=utility_pkg.vhd
 WAVE=self_test_wave.vcd
 
-SIM_TIME_A=6500ns
+SIM_TIME_A=2400ns
 
 task_a: tb_self_test_module.vhd
 	ghdl -a --std=08 $(PACKAGE)
