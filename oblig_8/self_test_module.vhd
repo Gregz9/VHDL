@@ -23,14 +23,14 @@ architecture rtl of self_test_module is
   
 
   -- Counter specific signals
-  signal count_reg : integer := 0;
+  signal count_reg : integer := 0; -- With the clock oscilator at 100 MHz, we have to count to 300 000 000
   signal count_next : integer;
 
   -- Other signals
   signal second_tick : std_logic;
   
   -- ROM 
-  type ROM is array(rom_size downto 0) of signed(data_width-1 downto 0); 
+  type ROM is array(2**addr_width-1 downto 0) of signed(data_width-1 downto 0); 
   signal c_addr: integer := 0;  
   signal c_addr_next: integer := 0; 
 
@@ -39,10 +39,11 @@ architecture rtl of self_test_module is
     variable c_line: line; 
     variable out_rom: ROM; 
   begin 
-    for i in 0 to rom_size loop
+    for i in 0 to rom_size-1 loop
       readline(data_file, c_line); 
       read(c_line, out_rom(i)); 
     end loop; 
+    file_close(data_file);
     return out_rom; 
   end function; 
 
@@ -64,15 +65,15 @@ begin
     if reset = '1' then
       count_reg <= 0;
       c_addr <= 0;
-
-    elsif c_addr > rom_size then 
-      c_addr <= 0; 
-
+    
     elsif rising_edge(mclk) then
       if second_tick = '1' then  -- 100 MHz clock / 50 Hz frequency = 2 * 1e6 cycles */
         duty_cycle <= data_out;
-        c_addr <= c_addr_next; 
+
+        c_addr <= c_addr_next when c_addr_next < rom_size else 0;  
+
         count_reg <= 0;
+
       else
         count_reg <= count_next; 
       end if;
@@ -84,7 +85,7 @@ begin
   ADDRESS_READ: 
   process (c_addr)
   begin
-    c_addr_next <= c_addr + 1;
+    c_addr_next <= c_addr + 1; 
     data_out <= ROM_DATA(c_addr);
   end process ADDRESS_READ;
  
