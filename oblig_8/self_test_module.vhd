@@ -54,7 +54,7 @@ architecture rtl of self_test_module is
 begin
 
   COUNTING:
-  process (all)
+  process (count_reg)
   begin
     count_next <= count_reg + 1;
   end process COUNTING;
@@ -66,6 +66,9 @@ begin
       count_reg <= 0;
       c_addr <= 0;
     
+    elsif c_addr_next >= rom_size then 
+      duty_cycle <= "00000000"; 
+
     elsif rising_edge(mclk) then
       if second_tick = '1' then  -- 100 MHz clock / 50 Hz frequency = 2 * 1e6 cycles */
         duty_cycle <= data_out;

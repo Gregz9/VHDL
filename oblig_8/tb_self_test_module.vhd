@@ -73,6 +73,9 @@ begin
       report ("Wrong sequence output") severity error;
       wait for 105 ns;
     end loop;
+    wait for 220 ns; 
+    assert(tb_duty_cycle = "00000000")
+    report ("Fucking wrong!") severity failure;
     report ("Test successful");
    std.env.stop(0); 
 end process; 
