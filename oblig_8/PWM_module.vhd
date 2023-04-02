@@ -3,7 +3,7 @@ use IEEE.std_logic_1164.all;
 use IEEE.numeric_std.all; 
 use IEEE.float_pkg.all; 
 
-entity PWM is 
+entity pulse_width_modulator is 
   generic( 
           PWM_frequency: natural := 2000; -- in Hz
           ); 
@@ -15,9 +15,9 @@ entity PWM is
       dir       : out std_logic := 0; 
       en        : out std_logic := '0';
     ); 
-end PWM; 
+end pulse_width_modulator; 
 
-architecture rtl of PWM is 
+architecture rtl of pulse_width_modulator is 
   
   constant PWM_count : integer := 100000000 / desired_frequency; 
   constant max_value : integer := 127; 
