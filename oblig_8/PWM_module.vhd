@@ -5,21 +5,21 @@ use IEEE.float_pkg.all;
 
 entity pulse_width_modulator is 
   generic( 
-          PWM_frequency: natural := 2000; -- in Hz
+          PWM_frequency: natural := 2000 -- in Hz
           ); 
 
   port( 
       clk       : in std_logic; 
       reset     : in std_logic; 
       duty_cycle: in signed(7 downto 0); 
-      dir       : out std_logic := 0; 
-      en        : out std_logic := '0';
+      dir       : out std_logic; 
+      en        : out std_logic := '0'
     ); 
 end pulse_width_modulator; 
 
 architecture rtl of pulse_width_modulator is 
   
-  constant PWM_count : integer := 100000000 / desired_frequency; 
+  constant PWM_count : integer := 100000000 / PWM_frequency; 
   constant max_value : integer := 127; 
   /* signal percentage : float(32, 8);  */
   
@@ -42,15 +42,15 @@ begin
     if to_integer(duty_cycle) > 0 then  
       dir <= '1'; 
       en <= '1'; 
-      PWM_high <= ROUND_TO_NEAREST(abs(to_integer(duty_cycle))/max_value)*PWM_count
+      PWM_high <= ((abs(to_integer(duty_cycle))/max_value)*PWM_count);
     elsif to_integer(duty_cycle) < 0 then
       dir <= '0'; 
       en <= '1'; 
-      PWM_high <= ROUND_TO_NEAREST(abs(to_integer(duty_cycle))/ -max_value )*PWM_count
+      PWM_high <= ((abs(to_integer(duty_cycle))/ (-max_value) )*PWM_count);
     elsif to_integer(duty_cycle) = 0 then 
       dir <= '0'; 
       en <= '0'; 
-      PWM_high <= '0'; 
+      PWM_high <= 0; 
     end if; 
   end process DIRECTION; 
 
