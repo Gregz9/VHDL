@@ -38,14 +38,14 @@ architecture behavioral of tb_pulse_width_modulator is
   signal duty_cycle : signed(7 downto 0) := (others => '0');
   
   -- Set reset, and test dir and enable
-  procedure reset_test(reset_category: string; signal reset: out std_logic) is 
+  procedure reset_test(reset_category: string; signal p_reset: out std_logic) is 
     variable v_dir : std_logic;
   begin 
     v_dir := dir;
-    reset <= '1';
+    p_reset <= '1';
     wait for PERIOD;
       assert (en = '0') report reset_category & ": EN has not been disabled within 1 clock cycle." & RES_REP severity failure;
-    reset <= '0';
+    p_reset <= '0';
     report reset_category & ": done!";
   end procedure reset_test;
   
