@@ -5,7 +5,7 @@ PACKAGE=utility_pkg.vhd
 WAVE_A=self_test_wave.vcd
 
 SIM_TIME_A=2400ns
-SIM_TIME_LONGER=10000ns 
+SIM_TIME_LONGER=1000ms
 
 task_a: tb_self_test_module.vhd
 	ghdl -a --std=08 $(PACKAGE)
