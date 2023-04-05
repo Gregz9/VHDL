@@ -81,21 +81,6 @@ architecture behavioral of tb_synchronizer is
 
   signal length_file : natural := file_length(tb_filename_synch);
 
-  /* impure function init_ROM(file_name: string; len: natural) return ROM is  */
-  /*   file data_file : text open read_mode is file_name;  */
-  /*   variable c_line : line;  */
-  /*   variable out_rom : ROM; */
-  /*   begin  */
-  /*     for i in 0 to len-1 loop  */
-  /*       readline(data_file, c_line);  */
-  /*       read(c_line, out_rom(i)); */
-  /*     end loop; */
-  /*     file_close(data_file); */
-  /*     return out_rom; */
-  /*   end function; */
-  /**/
-  /* constant SYNCH_ROM : ROM := init_ROM(tb_filename_synch, length_file); */
-
   begin 
 
   -- Instatiate components
@@ -124,7 +109,14 @@ architecture behavioral of tb_synchronizer is
         );
 
   SYNCH : output_synchronizer 
-  port map(tb_clk, tb_reset, tb_dir, tb_en, synch_dir, synch_en);
+  port map
+        (
+        clk => tb_clk, 
+        reset => tb_reset, 
+        signal_a => tb_dir, 
+        signal_b => tb_en, 
+        synch_signal_a => synch_dir, 
+        synch_signal_b => synch_en);
 
     CLOCK: process
     begin 

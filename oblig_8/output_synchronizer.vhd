@@ -26,7 +26,7 @@ architecture rtl of output_synchronizer is
     );
   end component d_flip_flop;
 
-  signal q1_flip_flop, q2_flip_flop : std_logic; 
+  signal q1_flip_flop, q2_flip_flop : std_logic;
 
 begin 
   dff1 : d_flip_flop port map(clk => clk, reset => reset, d => signal_a, q => q1_flip_flop);
