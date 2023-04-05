@@ -8,7 +8,7 @@ entity self_test_module is
   generic(
               data_width: natural := 10; 
               addr_width: natural := 4; 
-              rom_size  : natural := 10;
+              /* rom_size  : natural := 10; */
               filename: string := "rom_data.txt"
             );
 
@@ -34,7 +34,22 @@ architecture rtl of self_test_module is
   signal c_addr: integer := 0;  
   signal c_addr_next: integer := 0; 
 
-  impure function init_ROM(file_name:string) return ROM is 
+  impure function file_length(file_name: string) return natural is 
+    file data_file : text open read_mode is file_name;
+    variable c_line: line; 
+    variable length: natural := 0; 
+  begin 
+    while not endfile(data_file) loop
+      readline(data_file, c_line); 
+      length := length + 1;
+    end loop; 
+    file_close(data_file); 
+    return length;
+  end function;
+
+  constant rom_size: natural := file_length(filename); 
+
+  impure function init_ROM(file_name: string) return ROM is 
     file data_file : text open read_mode is file_name; 
     variable c_line: line; 
     variable out_rom: ROM; 
@@ -48,7 +63,6 @@ architecture rtl of self_test_module is
   end function; 
 
   constant ROM_DATA: ROM := init_ROM(filename); 
-
   signal data_out: signed(data_width-1 downto 0) := ROM_DATA(c_addr); 
 
 begin

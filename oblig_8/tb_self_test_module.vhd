@@ -10,7 +10,6 @@ entity tb_self_test_module is
             tb_data_width: natural := 8; 
             tb_addr_width: natural := 5;
             tb_filename: string := "rom_data.txt"
-            /* tb_rom_size  : natural := 21 */
           );  
 end tb_self_test_module;
 
@@ -55,7 +54,7 @@ architecture rtl of tb_self_test_module is
 
 
 begin 
-  UUT : entity work.self_test_module(rtl) generic map(tb_data_width, tb_addr_width, elements, tb_filename) port map(tb_clk, tb_reset, tb_duty_cycle);
+  UUT : entity work.self_test_module(rtl) generic map(tb_data_width, tb_addr_width, tb_filename) port map(tb_clk, tb_reset, tb_duty_cycle);
   
   /* tb_reset <= '1', '0' after 10 ns; */
   P_CLK_0: process
