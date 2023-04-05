@@ -4,7 +4,7 @@ use IEEE.numeric_std.all;
 library work; 
 use work.all;
 
-entity brute_synchronizer is 
+entity input_synchronizer is 
   port( 
       clk       : in std_logic; 
       reset     : in std_logic; 
@@ -13,9 +13,9 @@ entity brute_synchronizer is
       synch_signal_a : out std_logic; 
       synch_signal_b : out std_logic
     ); 
-end brute_synchronizer; 
+end input_synchronizer; 
 
-architecture rtl of brute_synchronizer is 
+architecture rtl of input_synchronizer is 
 
   component d_flip_flop
     port(
@@ -30,7 +30,7 @@ architecture rtl of brute_synchronizer is
   signal q3_flip_flop, q4_flip_flop : std_logic; 
 
 begin 
-  dff1 : d_flip_flop port map(clk => clk, reset => reset, d => singal_a, q => q1_flip_flop);
+  dff1 : d_flip_flop port map(clk => clk, reset => reset, d => signal_a, q => q1_flip_flop);
   dff2 : d_flip_flop port map(clk => clk, reset => reset, d => q1_flip_flop, q => q2_flip_flop);
 
   dff3 : d_flip_flop port map(clk => clk, reset => reset, d => signal_b, q => q3_flip_flop);

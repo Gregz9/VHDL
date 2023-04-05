@@ -27,6 +27,22 @@ task_b: tb_pwm_module.vhd
 	ghdl -r --std=08 $(TB_ENTITY_B) --stop-time=$(SIM_TIME_LONGER) --vcd=$(WAVE_B)
 	gtkwave --script self_test_module.tcl $(WAVE_B)
 
+FLIPFLOP=d-flipflop.vhd
+ENTITY_FILE_C=output_synchronizer.vhd
+TB_FILE_C=tb_synchronizer.vhd
+TB_ENTITY_C=tb_synchronizer
+WAVE_C=synch_wave.vcd
+
+task_c: 
+	ghdl -a --std=08 $(FLIPFLOP)
+	ghdl -a --std=08 $(PACKAGE)
+	ghdl -a --std=08 $(ENTITY_FILE_A)
+	ghdl -a --std=08 $(ENTITY_FILE_B)
+	ghdl -a --std=08 $(ENTITY_FILE_C)
+	ghdl -a --std=08 $(TB_FILE_C)
+	ghdl -e --std=08 $(TB_ENTITY_C)
+	ghdl -r --std=08 $(TB_ENTITY_C) --stop-time=$(SIM_TIME_A) --vcd=$(WAVE_C)
+	gtkwave $(WAVE_C)
 
 clean: 
 	rm -f *.o
@@ -35,3 +51,5 @@ clean:
 	rm -f *.sav
 	rm -f $(TB_ENTITY_A)
 	rm -f $(TB_ENTITY_B)
+	rm -f $(TB_ENTITY_C)
+

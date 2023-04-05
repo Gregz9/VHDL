@@ -17,9 +17,9 @@ architecture rtl of tb_self_test_module is
 
   signal tb_clk        : std_logic := '0';
   signal tb_reset      : std_logic := '0'; 
-  signal tb_duty_cycle : signed(tb_data_width-1 downto 0); 
+  signal tb_duty_cycle : std_logic_vector(tb_data_width-1 downto 0); 
 
-  type ROM is array(2**tb_addr_width-1 downto 0) of signed(tb_data_width-1 downto 0); 
+  type ROM is array(2**tb_addr_width-1 downto 0) of std_logic_vector(tb_data_width-1 downto 0); 
   
   impure function file_length(filename: string) return integer is
     file data_file : text open read_mode is filename; 
@@ -50,7 +50,7 @@ architecture rtl of tb_self_test_module is
   end function; 
 
   constant ROM_DATA: ROM := init_ROM(tb_filename); 
-  signal out_data: signed(tb_data_width-1 downto 0) := ROM_DATA(0);
+  signal out_data: std_logic_vector(tb_data_width-1 downto 0) := ROM_DATA(0);
 
 
 begin 

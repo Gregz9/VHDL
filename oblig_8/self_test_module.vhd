@@ -8,14 +8,13 @@ entity self_test_module is
   generic(
               data_width: natural := 10; 
               addr_width: natural := 4; 
-              /* rom_size  : natural := 10; */
               filename: string := "rom_data.txt"
             );
 
   port(
       mclk          : in std_logic;
       reset         : in std_logic;
-      duty_cycle    : out signed(data_width-1 downto 0) --:= "00000";
+      duty_cycle    : out std_logic_vector(data_width-1 downto 0) --:= "00000";
     );
 end self_test_module;
 
@@ -30,7 +29,7 @@ architecture rtl of self_test_module is
   signal second_tick : std_logic;
   
   -- ROM 
-  type ROM is array(2**addr_width-1 downto 0) of signed(data_width-1 downto 0); 
+  type ROM is array(2**addr_width-1 downto 0) of std_logic_vector(data_width-1 downto 0); 
   signal c_addr: integer := 0;  
   signal c_addr_next: integer := 0; 
 
@@ -63,7 +62,7 @@ architecture rtl of self_test_module is
   end function; 
 
   constant ROM_DATA: ROM := init_ROM(filename); 
-  signal data_out: signed(data_width-1 downto 0) := ROM_DATA(c_addr); 
+  signal data_out: std_logic_vector(data_width-1 downto 0) := ROM_DATA(c_addr); 
 
 begin
 
