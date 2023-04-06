@@ -7,8 +7,7 @@ entity seg7ctrl is
   (
     mclk        : in std_logic; -- 100 MHz
     reset       : in std_logic; 
-    d0          : in std_logic_vector(4 downto 0); 
-    d1          : in std_logic_vector(4 downto 0); 
+    velocity    : in signed(7 downto 0);
     abcdefg     : out std_logic_vector(6 downto 0); 
     c           : out std_logic
   ); 
@@ -23,7 +22,14 @@ architecture rtl of seg7ctrl is
   signal seg7_out : std_logic_vector(6 downto 0);
   signal d_select : std_logic := '0';
 
+  signal d0, d1 : std_logic_vector(4 downto 0);
+  signal conv_velocity : unsigned(velocity'length-1 downto 0);
+
 begin
+
+  conv_velocity <= unsigned(velocity);
+  d1 <= '0' & conv_velocity(velocity'length-1 downto velocity'length/2-1);
+  d0 <= '0' & conv_velocity(velocity'length/2-1 downto 0);
 
   COUNTING: 
   process (all)
