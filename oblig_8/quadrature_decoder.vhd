@@ -42,55 +42,76 @@ begin
   NEXT_STATE_CL: process(all) 
   begin 
     case current_state is 
+
       when S_reset => 
         next_state <= S_init;
+
       when S_init => 
         if synch_a & synch_b = "00" then 
             next_state <= S_0; 
+
         elsif synch_a & synch_b = "01" then 
             next_state <= S_1; 
+
         elsif synch_a & synch_b = "11" then 
             next_state <= S_2; 
+
         elsif synch_a & synch_b = "10" then  
             next_state <= S_3;
         end if;
+
       when S_0 => 
         if synch_a & synch_b = "00" then 
             next_state <= S_0; 
+
         elsif synch_a & synch_b = "01" then 
             next_state <= S_1; -- inc
+
         elsif synch_a & synch_b = "11" then 
             next_state <= S_reset; -- err
+
         elsif synch_a & synch_b = "10" then  
             next_state <= S_3; -- dec
         end if;
+
       when S_1 => 
         if synch_a & synch_b = "00" then 
             next_state <= S_0; -- dec 
+
         elsif synch_a & synch_b = "01" then 
             next_state <= S_1; 
+
         elsif synch_a & synch_b = "11" then 
             next_state <= S_2; -- inc
+
         elsif synch_a & synch_b = "10" then  
             next_state <= S_reset; -- err
         end if;
+
       when S_2 =>
         if synch_a & synch_b = "00" then 
             next_state <= S_reset; -- err 
+
         elsif synch_a & synch_b = "01" then 
             next_state <= S_1; -- dec  
+
         elsif synch_a & synch_b = "11" then 
             next_state <= S_2; 
+
         elsif synch_a & synch_b = "10" then  
             next_state <= S_3; -- inc
         end if;
+
       when S_3 => 
         if synch_a & synch_b = "00" then 
             next_state <= S_0; -- inc
+
         elsif synch_a & synch_b = "01" then 
             next_state <= S_reset; -- err
+
         elsif synch_a & synch_b = "11" then 
             next_state <= S_2;  -- dec  
+
         elsif synch_a & synch_b = "10" then  
             next_state <= S_3;
             end if;
