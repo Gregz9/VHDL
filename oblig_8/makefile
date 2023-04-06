@@ -44,6 +44,22 @@ task_c:
 	ghdl -r --std=08 $(TB_ENTITY_C) --stop-time=$(SIM_TIME_A) --vcd=$(WAVE_C)
 	gtkwave $(WAVE_C)
 
+ENTITY_FILE_1_D=input_synchronizer.vhd 
+ENTITY_FILE_2_D=quadrature_decoder.vhd
+TB_FILE_D=tb_quadrature_decoder.vhd
+TB_ENTITY_D=tb_quadrature_decoder
+WAVE_D=decoder_wave.vcd
+SIM_TIME_D=640ns
+
+
+task_d: 
+	ghdl -a --std=08 $(ENTITY_FILE_1_D)
+	ghdl -a --std=08 $(ENTITY_FILE_2_D)
+	ghdl -a --std=08 $(TB_FILE_D)
+	ghdl -e --std=08 $(TB_ENTITY_D)
+	ghdl -r --std=08 $(TB_ENTITY_D) --stop-time=$(SIM_TIME_D) --vcd=$(WAVE_D)
+	gtkwave $(WAVE_D)
+
 clean: 
 	rm -f *.o
 	rm -f *.vcd
@@ -52,4 +68,5 @@ clean:
 	rm -f $(TB_ENTITY_A)
 	rm -f $(TB_ENTITY_B)
 	rm -f $(TB_ENTITY_C)
+	rm -f $(TB_ENTITY_D)
 
