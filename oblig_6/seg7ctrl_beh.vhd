@@ -26,7 +26,7 @@ begin
     if reset = '1' then
       c_count <= 0;
     elsif rising_edge(mclk) then
-      c_count <= c_count + 1;
+      c_count <= c_count_i;
       if c_count = 1000000 then  -- 100 MHz clock / 50 Hz frequency = 2 * 1e6 cycles
         d_select <= not d_select;
         c_count <= 0; 
