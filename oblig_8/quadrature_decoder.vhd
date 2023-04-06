@@ -8,8 +8,8 @@ entity quadrature_decoder is
       reset     : in std_logic; 
       synch_a   : in std_logic; 
       synch_b   : in std_logic; 
-      pos_inc   : out std_logic; 
-      pos_dec   : out std_logic 
+      pos_inc   : out std_logic := '0';
+      pos_dec   : out std_logic := '0'
     ); 
 end entity quadrature_decoder; 
 
@@ -30,85 +30,85 @@ begin
     end if; 
   end process; 
 
-  SIGNAL_ASSIGNMENT: process(clk, reset) 
-  begin
-    if rising_edge(clk) then 
-      pos_inc <= inc; 
-      pos_dec <= dec; 
-    end if; 
-  end process SIGNAL_ASSIGNMENT;
-
-
   NEXT_STATE_CL: process(all) 
   begin 
     case current_state is 
       when S_reset => 
+        inc <= '0';
+        dec <= '0';
         next_state <= S_init;
       when S_init => 
-        case synch_a & synch_b is 
-          when "00" => 
+        inc <= '0';
+        dec <= '0';
+        if synch_a & synch_b = "00" then 
             next_state <= S_0; 
-          when "01" => 
+        elsif synch_a & synch_b = "01" then 
             next_state <= S_1; 
-          when "11" => 
+        elsif synch_a & synch_b = "11" then 
             next_state <= S_2; 
-          when "10" => 
+        elsif synch_a & synch_b = "10" then  
             next_state <= S_3;
-          when others => 
-            next_state <= current_state;
-        end case; 
+        end if;
       when S_0 => 
-        case synch_a & synch_b is 
-          when "00" => 
+        if synch_a & synch_b = "00" then 
             next_state <= S_0; 
-          when "01" => 
+            inc <= '0';
+            dec <= '0';
+        elsif synch_a & synch_b = "01" then 
             next_state <= S_1; -- inc
-          when "11" => 
+            inc <= '1';
+        elsif synch_a & synch_b = "11" then 
             next_state <= S_reset; -- err
-          when "10" => 
+            err <= '1';
+        elsif synch_a & synch_b = "10" then  
             next_state <= S_3; -- dec
-          when others => 
-            next_state <= current_state;
-          end case; 
-        when S_1 => 
-          case synch_a & synch_b is 
-            when "00" => 
-              next_state <= S_0; -- dec 
-            when "01" => 
-              next_state <= S_1; 
-            when "11" => 
-              next_state <= S_2; -- inc
-            when "10" => 
-              next_state <= S_reset; -- err
-          when others => 
-            next_state <= current_state;
-          end case; 
-        when S_2 =>
-          case synch_a & synch_b is 
-            when "00" => 
-              next_state <= S_reset; -- err 
-            when "01" => 
-              next_state <= S_1; -- dec  
-            when "11" => 
-              next_state <= S_2; 
-            when "10" => 
-              next_state <= S_3; -- inc
-          when others => 
-            next_state <= current_state;
-          end case; 
-        when S_3 => 
-          case synch_a & synch_b is 
-            when "00" => 
-              next_state <= S_0; -- inc
-            when "01" => 
-              next_state <= S_reset; -- err
-            when "11" => 
-              next_state <= S_2;  -- dec  
-            when "10" => 
-              next_state <= S_3;
-          when others => 
-            next_state <= current_state;
-          end case; 
+            dec <= '1';
+        end if;
+      when S_1 => 
+        if synch_a & synch_b = "00" then 
+            next_state <= S_0; -- dec 
+            dec <= '1';
+        elsif synch_a & synch_b = "01" then 
+            next_state <= S_1; 
+            inc <= '0';
+            dec <= '0';
+        elsif synch_a & synch_b = "11" then 
+            next_state <= S_2; -- inc
+            inc <= '1';
+        elsif synch_a & synch_b = "10" then  
+            next_state <= S_reset; -- err
+            err <= '1';
+        end if;
+      when S_2 =>
+        if synch_a & synch_b = "00" then 
+            next_state <= S_reset; -- err 
+            err <= '1';
+        elsif synch_a & synch_b = "01" then 
+            next_state <= S_1; -- dec  
+            err <= '1';
+        elsif synch_a & synch_b = "11" then 
+            next_state <= S_2; 
+            inc <= '0';
+            dec <= '0';
+        elsif synch_a & synch_b = "10" then  
+            next_state <= S_3; -- inc
+            inc <= '1';
+        end if;
+      when S_3 => 
+        if synch_a & synch_b = "00" then 
+            next_state <= S_0; -- inc
+            inc <= '1';
+        elsif synch_a & synch_b = "01" then 
+            next_state <= S_reset; -- err
+            err <= '1';
+        elsif synch_a & synch_b = "11" then 
+            next_state <= S_2;  -- dec  
+            dec <= '1';
+        elsif synch_a & synch_b = "10" then  
+            next_state <= S_3;
+            inc <= '0';
+            dec <= '0';
+            end if;
       end case; 
     end process NEXT_STATE_CL;
 
