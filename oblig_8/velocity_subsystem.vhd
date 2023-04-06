@@ -62,8 +62,6 @@ architecture structural of velocity_subsystem is
   signal sub_pos_inc : std_logic; 
   signal sub_pos_dec : std_logic;
   signal sub_velocity: signed(7 downto 0); 
-  signal sub_abcdefg : std_logic_vector(6 downto 0);
-  signal sub_c       : std_logic;
 
 begin 
   
@@ -98,6 +96,14 @@ begin
 
   SEG7 : seg7ctrl 
   port map(
+        mclk => clk, 
+        reset => reset, 
+        velocity => sub_velocity, 
+        abcdefg => abcdefg,
+        c => c
+      );
+
+end architecture structural;
         
 
 
