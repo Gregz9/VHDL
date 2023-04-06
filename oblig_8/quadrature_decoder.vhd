@@ -24,6 +24,7 @@ begin
   begin 
     if reset or err then 
       current_state <= S_reset; 
+      err <= '0';
     elsif rising_edge(clk) then
       current_state <= next_state; 
     end if; 
@@ -109,11 +110,27 @@ begin
         when S_init => 
           inc <= '0'; 
           dec <= '0'; 
+        when S_0 => 
+          err <= '1' when synch_a and synch_b;
+          inc <= '1' when not synch_a and synch_b else '0'; 
+          dec <= '1' when synch_a and not synch_b else '0';
         when S_1 => 
+          err <= '1' when synch_a and not synch_b; 
           inc <= '1' when synch_a and synch_b else '0';
           dec <= '1' when not synch_a and not synch_b else '0';
-          err <= '1' when 
+        when S_2 => 
+          err <= '1' when not synch_a and not synch_b; 
+          inc <= '1' when synch_a and not synch_b else '0';
+          dec <= '1' when not synch_a and synch_b else '0'
+        when S_3 => 
+          err <= '1' when not synch_a and synch_b; 
+          inc <= '1' when not synch_a and not synch_b else '0';
+          dec <= '1' when synch_a and synch_b else '0';
+        end case;
+    end process OUTPUT_LOGIC;
 
+end architecture; 
+      
 
 
 
