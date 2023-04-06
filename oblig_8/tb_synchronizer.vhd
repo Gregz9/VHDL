@@ -116,7 +116,8 @@ architecture behavioral of tb_synchronizer is
         signal_a => tb_dir, 
         signal_b => tb_en, 
         synch_signal_a => synch_dir, 
-        synch_signal_b => synch_en);
+        synch_signal_b => synch_en
+      );
 
     CLOCK: process
     begin 
