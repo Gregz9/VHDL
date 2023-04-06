@@ -10,8 +10,8 @@ entity output_synchronizer is
       reset     : in std_logic; 
       signal_a  : in std_logic; 
       signal_b  : in std_logic; 
-      synch_signal_a : out std_logic; 
-      synch_signal_b : out std_logic
+      dir_synch : out std_logic; 
+      en_synch : out std_logic
     ); 
 end output_synchronizer; 
 
@@ -32,8 +32,8 @@ begin
   dff1 : d_flip_flop port map(clk => clk, reset => reset, d => signal_a, q => q1_flip_flop);
   dff3 : d_flip_flop port map(clk => clk, reset => reset, d => signal_b, q => q2_flip_flop);
 
-  synch_signal_a <= q1_flip_flop;
-  synch_signal_b <= q2_flip_flop;
+  dir_synch <= q1_flip_flop;
+  en_synch <= q2_flip_flop;
 end architecture rtl;
 
 

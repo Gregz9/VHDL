@@ -50,8 +50,8 @@ architecture behavioral of tb_synchronizer is
         reset       : in std_logic; 
         signal_a    : in std_logic; 
         signal_b    : in std_logic; 
-        synch_signal_a : out std_logic; 
-        synch_signal_b : out std_logic
+        dir_synch : out std_logic; 
+        en_synch : out std_logic
       ); 
   end component output_synchronizer;
 
@@ -115,8 +115,8 @@ architecture behavioral of tb_synchronizer is
         reset => tb_reset, 
         signal_a => tb_dir, 
         signal_b => tb_en, 
-        synch_signal_a => synch_dir, 
-        synch_signal_b => synch_en
+        dir_synch => synch_dir, 
+        en_synch => synch_en
       );
 
     CLOCK: process
