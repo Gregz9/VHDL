@@ -43,8 +43,8 @@ architecture behavioral of tb_quadrature_decoder is
 
 begin 
 
-  encoded_a <= not encoded_a after 7 ns; 
-  encoded_b <= not encoded_b after 15 ns; 
+  encoded_a <= not encoded_a after 15 ns;
+  encoded_b <= not encoded_b after 7 ns;
 
   SYNCH : input_synchronizer
   port map 

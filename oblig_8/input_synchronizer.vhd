@@ -27,6 +27,7 @@ architecture rtl of input_synchronizer is
   end component d_flip_flop;
 
   signal q1_flip_flop, q2_flip_flop : std_logic; 
+
   signal q3_flip_flop, q4_flip_flop : std_logic; 
 
 begin 
