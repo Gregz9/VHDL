@@ -8,8 +8,8 @@ entity output_synchronizer is
   port( 
       clk       : in std_logic; 
       reset     : in std_logic; 
-      signal_a  : in std_logic; 
-      signal_b  : in std_logic; 
+      dir       : in std_logic; 
+      en        : in std_logic; 
       dir_synch : out std_logic; 
       en_synch : out std_logic
     ); 

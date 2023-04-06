@@ -48,8 +48,8 @@ architecture behavioral of tb_synchronizer is
       (
         clk         : in std_logic; 
         reset       : in std_logic; 
-        signal_a    : in std_logic; 
-        signal_b    : in std_logic; 
+        dir         : in std_logic; 
+        en          : in std_logic; 
         dir_synch : out std_logic; 
         en_synch : out std_logic
       ); 
@@ -113,8 +113,8 @@ architecture behavioral of tb_synchronizer is
         (
         clk => tb_clk, 
         reset => tb_reset, 
-        signal_a => tb_dir, 
-        signal_b => tb_en, 
+        dir => tb_dir, 
+        en => tb_en, 
         dir_synch => synch_dir, 
         en_synch => synch_en
       );
