@@ -53,6 +53,7 @@ SIM_TIME_D=640ns
 
 
 task_d: 
+	ghdl -a --std=08 $(FLIPFLOP)
 	ghdl -a --std=08 $(ENTITY_FILE_1_D)
 	ghdl -a --std=08 $(ENTITY_FILE_2_D)
 	ghdl -a --std=08 $(TB_FILE_D)

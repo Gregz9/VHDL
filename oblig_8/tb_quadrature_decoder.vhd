@@ -1,7 +1,7 @@
 library IEEE; 
 use IEEE.std_logic_1164.all; 
 library work; 
-library work.all; 
+use work.all; 
 
 
 entity tb_quadrature_decoder is 
@@ -34,7 +34,7 @@ architecture behavioral of tb_quadrature_decoder is
   
   signal tb_clk : std_logic; 
   signal tb_reset : std_logic; 
-  signal encoded_a : std_logic := 0; 
+  signal encoded_a : std_logic := '0'; 
   signal encoded_b : std_logic := '0';
   signal tb_synch_a : std_logic; 
   signal tb_synch_b : std_logic;

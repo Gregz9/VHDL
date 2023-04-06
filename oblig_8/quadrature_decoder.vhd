@@ -13,7 +13,7 @@ entity quadrature_decoder is
     ); 
 end entity quadrature_decoder; 
 
-architecture rtl of quadrature_deccoder is 
+architecture rtl of quadrature_decoder is 
   type state_type is (S_reset, S_init, S_0, S_1, S_2, S_3);
   signal current_state, next_state : state_type;
   signal err, inc, dec : std_logic; 
@@ -31,6 +31,7 @@ begin
   end process; 
 
   SIGNAL_ASSIGNMENT: process(clk, reset) 
+  begin
     if rising_edge(clk) then 
       pos_inc <= inc; 
       pos_dec <= dec; 
@@ -53,6 +54,8 @@ begin
             next_state <= S_2; 
           when "10" => 
             next_state <= S_3;
+          when others => 
+            next_state <= current_state;
         end case; 
       when S_0 => 
         case synch_a & synch_b is 
@@ -64,6 +67,8 @@ begin
             next_state <= S_reset; -- err
           when "10" => 
             next_state <= S_3; -- dec
+          when others => 
+            next_state <= current_state;
           end case; 
         when S_1 => 
           case synch_a & synch_b is 
@@ -75,6 +80,8 @@ begin
               next_state <= S_2; -- inc
             when "10" => 
               next_state <= S_reset; -- err
+          when others => 
+            next_state <= current_state;
           end case; 
         when S_2 =>
           case synch_a & synch_b is 
@@ -86,6 +93,8 @@ begin
               next_state <= S_2; 
             when "10" => 
               next_state <= S_3; -- inc
+          when others => 
+            next_state <= current_state;
           end case; 
         when S_3 => 
           case synch_a & synch_b is 
@@ -97,6 +106,8 @@ begin
               next_state <= S_2;  -- dec  
             when "10" => 
               next_state <= S_3;
+          when others => 
+            next_state <= current_state;
           end case; 
       end case; 
     end process NEXT_STATE_CL;
@@ -121,7 +132,7 @@ begin
         when S_2 => 
           err <= '1' when not synch_a and not synch_b; 
           inc <= '1' when synch_a and not synch_b else '0';
-          dec <= '1' when not synch_a and synch_b else '0'
+          dec <= '1' when not synch_a and synch_b else '0';
         when S_3 => 
           err <= '1' when not synch_a and synch_b; 
           inc <= '1' when not synch_a and not synch_b else '0';
