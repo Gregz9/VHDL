@@ -36,7 +36,7 @@ architecture structural of system is
       clk       : in std_logic;
       reset     : in std_logic; 
       dir_synch : out std_logic; 
-      en_synch  : out std_logic; 
+      en_synch  : out std_logic 
     );
   end component pulse_subsystem;
 

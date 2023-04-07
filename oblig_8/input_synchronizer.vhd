@@ -17,7 +17,7 @@ end input_synchronizer;
 
 architecture rtl of input_synchronizer is 
 
-  component d_flip_flop
+  component d_flip_flop is 
     port(
       clk   : in std_logic; 
       reset : in std_logic; 

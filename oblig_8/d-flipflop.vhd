@@ -15,7 +15,7 @@ architecture rtl of d_flip_flop is
 begin 
   process(clk, reset) 
   begin 
-    if reset then 
+    if reset = '1' then 
       q <= '0';
     elsif rising_edge(clk) then 
       q <= d;

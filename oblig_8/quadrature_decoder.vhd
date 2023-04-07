@@ -1,180 +1,110 @@
 library IEEE; 
 use IEEE.std_logic_1164.all; 
+use IEEE.numeric_std.all; 
 
 entity quadrature_decoder is 
-  port 
-    ( 
-      clk       : in std_logic; 
-      reset     : in std_logic; 
-      synch_a   : in std_logic; 
-      synch_b   : in std_logic; 
-      pos_inc   : out std_logic := '0';
-      pos_dec   : out std_logic := '0'
-    ); 
+  port(
+    clk        : in std_logic; 
+    reset       : in std_logic; 
+    synch_a     : in std_logic; 
+    synch_b     : in std_logic; 
+    pos_inc     : out std_logic; 
+    pos_dec     : out std_logic
+  );
 end entity quadrature_decoder; 
 
 architecture rtl of quadrature_decoder is 
-  type state_type is (S_reset, S_init, S_0, S_1, S_2, S_3);
-  signal current_state, next_state : state_type;
-  signal err, inc, dec : std_logic; 
+  type state_type is (S_reset, S_init, S_0, S_1, S_2, S_3); 
+  signal current_state, next_state : state_type; 
+  signal AB : std_logic_vector(1 downto 0); 
+  signal err : std_logic; 
 
 begin 
-  
-  STATE_TRANSISTION: process(clk, reset) 
-  begin 
-    if reset or err then 
-      current_state <= S_reset; 
-      err <= '0';
-    elsif rising_edge(clk) then
-      current_state <= next_state; 
-    end if; 
-  end process; 
 
-  ASSIGN_VALUES: process(clk, reset) 
-  begin 
-    if rising_edge(clk) then 
-      pos_inc <= inc; 
-      pos_dec <= dec;
-    end if; 
-  end process ASSIGN_VALUES;
+  current_state <= S_reset when reset else next_state when rising_edge(clk); 
 
+  AB <= synch_a & synch_b; 
 
-  NEXT_STATE_CL: process(all) 
+  NEXT_STATE_CL: process(all) is 
   begin 
     case current_state is 
-
       when S_reset => 
-        next_state <= S_init;
-
+        next_state <= S_init; 
+      
       when S_init => 
-        if synch_a & synch_b = "00" then 
-            next_state <= S_0; 
-
-        elsif synch_a & synch_b = "01" then 
-            next_state <= S_1; 
-
-        elsif synch_a & synch_b = "11" then 
-            next_state <= S_2; 
-
-        elsif synch_a & synch_b = "10" then  
-            next_state <= S_3;
-        end if;
-
+        next_state <= 
+                     S_0 when AB = "00" else 
+                     S_1 when AB = "01" else 
+                     S_2 when AB = "11" else 
+                     S_3; 
+      
       when S_0 => 
-        if synch_a & synch_b = "00" then 
-            next_state <= S_0; 
-
-        elsif synch_a & synch_b = "01" then 
-            next_state <= S_1; -- inc
-
-        elsif synch_a & synch_b = "11" then 
-            next_state <= S_reset; -- err
-
-        elsif synch_a & synch_b = "10" then  
-            next_state <= S_3; -- dec
-        end if;
+        next_state <= 
+                     S_0 when AB = "00" else 
+                     S_1 when AB = "01" else 
+                     S_reset when AB = "11" else 
+                     S_3; 
 
       when S_1 => 
-        if synch_a & synch_b = "00" then 
-            next_state <= S_0; -- dec 
+        next_state <= 
+                     S_0 when AB = "00" else 
+                     S_1 when AB = "01" else 
+                     S_2 when AB = "11" else 
+                     S_reset;
+      
+      when S_2 => 
+        next_state <= 
+                     S_reset when AB = "00" else 
+                     S_1 when AB = "01" else 
+                     S_2 when AB = "11" else 
+                     S_3; 
 
-        elsif synch_a & synch_b = "01" then 
-            next_state <= S_1; 
-
-        elsif synch_a & synch_b = "11" then 
-            next_state <= S_2; -- inc
-
-        elsif synch_a & synch_b = "10" then  
-            next_state <= S_reset; -- err
-        end if;
-
-      when S_2 =>
-        if synch_a & synch_b = "00" then 
-            next_state <= S_reset; -- err 
-
-        elsif synch_a & synch_b = "01" then 
-            next_state <= S_1; -- dec  
-
-        elsif synch_a & synch_b = "11" then 
-            next_state <= S_2; 
-
-        elsif synch_a & synch_b = "10" then  
-            next_state <= S_3; -- inc
-        end if;
-
-      when S_3 => 
-        if synch_a & synch_b = "00" then 
-            next_state <= S_0; -- inc
-
-        elsif synch_a & synch_b = "01" then 
-            next_state <= S_reset; -- err
-
-        elsif synch_a & synch_b = "11" then 
-            next_state <= S_2;  -- dec  
-
-        elsif synch_a & synch_b = "10" then  
-            next_state <= S_3;
-            end if;
+      when S_3 =>  
+        next_state <= 
+                     S_0 when AB = "00" else 
+                     S_reset when AB = "01" else 
+                     S_2 when AB = "11" else 
+                     S_3; 
       end case; 
     end process NEXT_STATE_CL;
 
-    OUTPUT_LOGIC: process(all) 
+    OUTPUT_CL: process(all) is 
     begin 
+      pos_inc <= '0';
+      pos_dec <= '0';
       err <= '0';
-      inc <= '0';
-      dec <= '0';
       case current_state is 
         when S_reset => 
-          inc <= '0';
-          dec <= '0';
+          pos_inc <= '0';
+          pos_dec <= '0';
+          err <= '0';
+
         when S_init => 
-          inc <= '0'; 
-          dec <= '0'; 
+          pos_inc <= '0';
+          pos_dec <= '0';
+          err <= '0';
+
         when S_0 => 
-          if current_state /= next_state then
-            err <= '1' when synch_a and synch_b;
-            inc <= '1' when not synch_a and synch_b else '0'; 
-            dec <= '1' when synch_a and not synch_b else '0';
-          elsif current_state = next_state then 
-            err <= '0'; 
-            inc <= '0';
-            dec <= '0';
-          end if;
+          pos_inc <= '1' when AB = "01" else '0';
+          pos_dec <= '1' when AB = "10" else '0';
+          err <= '1' when AB = "11" else '0';
+       
         when S_1 => 
-          if current_state /= next_state then
-            err <= '1' when synch_a and not synch_b; 
-            inc <= '1' when synch_a and synch_b else '0';
-            dec <= '1' when not synch_a and not synch_b else '0';
-          elsif current_state = next_state then 
-            err <= '0'; 
-            inc <= '0';
-            dec <= '0';
-          end if;
+          pos_inc <= '1' when AB = "11" else '0';
+          pos_dec <= '1' when AB = "00" else '0';
+          err <= '1' when AB = "10" else '0';
+    
         when S_2 => 
-          if current_state /= next_state then
-            err <= '1' when not synch_a and not synch_b; 
-            inc <= '1' when synch_a and not synch_b else '0';
-            dec <= '1' when not synch_a and synch_b else '0';
-          elsif current_state = next_state then 
-            err <= '0'; 
-            inc <= '0';
-            dec <= '0';
-          end if;
+          pos_inc <= '1' when AB = "10" else '0';
+          pos_dec <= '1' when AB = "01" else '0';
+          err <= '1' when AB = "00" else '0';
+
         when S_3 => 
-          if current_state /= next_state then
-            err <= '1' when not synch_a and synch_b; 
-            inc <= '1' when not synch_a and not synch_b else '0';
-            dec <= '1' when synch_a and synch_b else '0';
-        elsif current_state = next_state then 
-            err <= '0'; 
-            inc <= '0';
-            dec <= '0';
-          end if;
-        end case;
-    end process OUTPUT_LOGIC;
+          pos_inc <= '1' when AB = "00" else '0';
+          pos_dec <= '1' when AB = "11" else '0';
+          err <= '1' when AB = "01" else '0';
 
-end architecture; 
-      
+        end case; 
+      end process OUTPUT_CL;
 
-
-
+end architecture rtl;

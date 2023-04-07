@@ -24,19 +24,17 @@ architecture rtl of pulse_width_modulator is
 begin 
 
   COUNTING: 
-  process(count_reg) 
+  process(all) 
   begin
     count_next <= count_reg + 1; 
   end process COUNTING; 
 
-  process(mclk, reset) 
+  process(all) 
   begin
     if reset then 
-      current_state <= reverse_idle;
       count_reg <= (others => '0');
     elsif rising_edge(mclk) then 
       count_reg <= count_next;
-      current_state <= next_state;
     end if; 
   end process;
 
@@ -51,6 +49,8 @@ begin
       end if; 
     end if;
   end process SET_PULSE;
+
+  current_state <= reverse_idle when reset else next_state when rising_edge(mclk);
 
   NEXT_STATE_CL: 
   process(all)  
@@ -86,9 +86,3 @@ begin
         end case;
   end process OUTPUT_CL; 
 end architecture;
-
-
-
-
-
-

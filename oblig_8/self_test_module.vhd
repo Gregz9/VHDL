@@ -6,8 +6,8 @@ library work;
 
 entity self_test_module is
   generic(
-              data_width: natural := 10; 
-              addr_width: natural := 4; 
+              data_width: natural := 8; 
+              addr_width: natural := 5; 
               filename: string := "rom_data.txt"
             );
 
@@ -72,9 +72,9 @@ begin
     count_next <= count_reg + 1;
   end process COUNTING;
 
-  process(mclk, reset)
+  process(all)
   begin
-
+    duty_cycle <= data_out; 
     if reset = '1' then
       count_reg <= 0;
       c_addr <= 0;
@@ -92,9 +92,8 @@ begin
 
       else
         count_reg <= count_next; 
-      end if;
-    else 
-      duty_cycle <= data_out; 
+      end if; 
+   
     end if;
   end process;
 
@@ -105,7 +104,7 @@ begin
     data_out <= ROM_DATA(c_addr);
   end process ADDRESS_READ;
  
-  second_tick <= '1' when count_reg = 10 else '0'; 
+  second_tick <= '1' when count_reg = 300000000 else '0'; 
   
 end architecture;
 

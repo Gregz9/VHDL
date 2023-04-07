@@ -2,7 +2,7 @@
  use IEEE.std_logic_1164.all; 
  use IEEE.numeric_std.all; 
  library work;
- use work.all;
+
 
 entity pulse_subsystem is 
   port( 
@@ -11,12 +11,12 @@ entity pulse_subsystem is
     dir_synch   : out std_logic; 
     en_synch    : out std_logic
   );
-end pulse_subsystem;
+end entity pulse_subsystem;
 
 architecture structural of pulse_subsystem is 
 
 -- Component declaration
-  component self_test_module
+  component self_test_module is
     generic(
       data_width: natural := 8;
       addr_width: natural := 5; 
@@ -25,11 +25,11 @@ architecture structural of pulse_subsystem is
     port( 
       mclk      : in std_logic;
       reset     : in std_logic;
-      duty_cycle : out std_logic_vector(7 downto 0);
+      duty_cycle : out std_logic_vector(7 downto 0)
     );
   end component self_test_module;
 
-  component pulse_width_modulator
+  component pulse_width_modulator is
     port( 
       mclk      : in std_logic; 
       reset     : in std_logic; 
@@ -39,7 +39,7 @@ architecture structural of pulse_subsystem is
     );
   end component pulse_width_modulator;
 
-  component output_synchronizer
+  component output_synchronizer is 
     port( 
       clk       : in std_logic; 
       reset     : in std_logic; 

@@ -41,7 +41,7 @@ architecture structural of velocity_subsystem is
       ); 
   end component quadrature_decoder;
 
-  component velocity_reaader
+  component velocity_reader
     port(
       mclk      : in std_logic; 
       reset     : in std_logic; 
@@ -49,6 +49,7 @@ architecture structural of velocity_subsystem is
       pos_dec   : in std_logic; 
       velocity  : out signed(7 downto 0)
        );
+    end component velocity_reader;
 
   component seg7ctrl 
     port( 
@@ -58,6 +59,7 @@ architecture structural of velocity_subsystem is
       abcdefg   : out std_logic_vector(6 downto 0); 
       c         : out std_logic
       );
+    end component seg7ctrl; 
   
   signal sub_synch_a : std_logic; 
   signal sub_synch_b : std_logic;
@@ -74,7 +76,7 @@ begin
         signal_a => SA, 
         signal_b => SB, 
         synch_signal_a => sub_synch_a, 
-        synch_signal_b => sub_synch_b, 
+        synch_signal_b => sub_synch_b 
       ); 
 
   QUAD : quadrature_decoder
@@ -87,7 +89,7 @@ begin
         pos_dec => sub_pos_dec
       );
 
-  VEL : velocity_reaader 
+  VEL : velocity_reader 
   port map(
         mclk => clk, 
         reset => reset, 
