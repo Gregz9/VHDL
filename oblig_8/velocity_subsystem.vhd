@@ -6,8 +6,8 @@ entity velocity_subsystem is
   port( 
       clk       : in std_logic; 
       reset     : in std_logic; 
-      A         : in std_logic; 
-      B         : in std_logic; 
+      SA         : in std_logic; 
+      SB         : in std_logic; 
       abcdefg   : out std_logic_vector(6 downto 0); 
       c         : out std_logic
     );
@@ -69,8 +69,8 @@ begin
   port map(
         clk => clk,
         reset => reset, 
-        signal_a => A, 
-        signal_b => B, 
+        signal_a => SA, 
+        signal_b => SB, 
         synch_signal_a => sub_synch_a, 
         synch_signal_b => sub_synch_b, 
       ); 
