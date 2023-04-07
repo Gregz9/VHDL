@@ -6,8 +6,8 @@ entity velocity_subsystem is
   port( 
       clk       : in std_logic; 
       reset     : in std_logic; 
-      SA         : in std_logic; 
-      SB         : in std_logic; 
+      SA        : in std_logic; 
+      SB        : in std_logic; 
       abcdefg   : out std_logic_vector(6 downto 0); 
       c         : out std_logic
     );
