@@ -69,6 +69,7 @@ begin
     for i in 0 to elements-1 loop
       out_data <= ROM_DATA(i); -- ROM_DATA(to_integer(to_unsigned(i, 5)));
       wait for 5 ns; 
+      report(to_string(to_integer(signed(ROM_DATA(i)))));
       assert(tb_duty_cycle = out_data)
       report ("Wrong sequence output") severity error;
       wait for 105 ns;
