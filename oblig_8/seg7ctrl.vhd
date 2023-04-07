@@ -23,13 +23,13 @@ architecture rtl of seg7ctrl is
   signal d_select : std_logic := '0';
 
   signal d0, d1 : std_logic_vector(4 downto 0);
-  signal conv_velocity : unsigned(velocity'length-1 downto 0);
+  signal conv_velocity : std_logic_vector(velocity'length-1 downto 0);
 
 begin
 
-  conv_velocity <= unsigned(velocity);
-  d1 <= '0' & conv_velocity(velocity'length-1 downto velocity'length/2-1);
-  d0 <= '0' & conv_velocity(velocity'length/2-1 downto 0);
+  conv_velocity <= std_logic_vector(unsigned(velocity));
+  d1 <= '0' & conv_velocity(7 downto 4);
+  d0 <= '0' & conv_velocity(3 downto 0);
 
   COUNTING: 
   process (all)
