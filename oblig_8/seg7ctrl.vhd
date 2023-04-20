@@ -29,7 +29,7 @@ architecture rtl of seg7ctrl is
 
 begin
 
-  conv_velocity <= std_logic_vector(unsigned(velocity));
+  conv_velocity <= std_logic_vector(abs(velocity));
   d1 <= '0' & conv_velocity(7 downto 4);
   d0 <= '0' & conv_velocity(3 downto 0);
 

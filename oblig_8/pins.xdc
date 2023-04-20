@@ -1,6 +1,7 @@
-set_property PACKAGE_PIN T18 [get_ports clk]
+
+set_property PACKAGE_PIN Y9 [get_ports clk]
 set_property PACKAGE_PIN P16 [get_ports reset]
-set_property PACKAGE_PIN W10 [get_ports SA]
+set_property PACKAGE_PIN V10 [get_ports SA]
 set_property PACKAGE_PIN W8 [get_ports SB]
 set_property PACKAGE_PIN W11 [get_ports en_synch]
 set_property PACKAGE_PIN W12 [get_ports dir_synch]
@@ -27,5 +28,3 @@ set_property IOSTANDARD LVCMOS33 [get_ports reset]
 set_property IOSTANDARD LVCMOS33 [get_ports SA]
 set_property IOSTANDARD LVCMOS33 [get_ports SB]
 
-set_property CLOCK_DEDICATED_ROUTE FALSE [get_nets clk]
-create_clock -period 10.000 -waveform {0.000 5.000} [get_ports clk]
