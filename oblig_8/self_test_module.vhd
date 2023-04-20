@@ -10,7 +10,6 @@ entity self_test_module is
               addr_width: natural := 5; 
               filename: string := "rom_data.txt"
             );
-
   port(
       mclk          : in std_logic;
       reset         : in std_logic;

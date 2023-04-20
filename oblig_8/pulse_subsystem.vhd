@@ -17,11 +17,6 @@ architecture structural of pulse_subsystem is
 
 -- Component declaration
   component self_test_module is
-    generic(
-      data_width: natural := 8;
-      addr_width: natural := 5; 
-      filename: string := "rom_data.txt"
-    );
     port( 
       mclk      : in std_logic;
       reset     : in std_logic;
