@@ -14,6 +14,7 @@ entity system is
     dir_synch   : out std_logic; 
     en_synch    : out std_logic; 
     abcdefg     : out std_logic_vector(6 downto 0);
+    velocity    : out signed(7 donwto 0); 
     c           : out std_logic
   );
 end entity system;  
@@ -28,7 +29,8 @@ architecture structural of system is
       SA        : in std_logic; 
       SB        : in std_logic; 
       abcdefg   : out std_logic_vector(6 downto 0);
-      c         : out std_logic
+      c         : out std_logic; 
+      synch_velocity : out signed(7 downto 0)
     ); 
   end component velocity_subsystem;
 
@@ -51,13 +53,15 @@ begin
       SA => SA,
       SB => SB, 
       abcdefg => abcdefg, 
-      c => c
+      c => c, 
+      synch_velocity => velocity
     );
 
   PLS_SYS : pulse_subsystem 
   port map(
       clk => clk,
       reset => reset, 
+      duty_cycle => duty_cycle,
       dir_synch => dir_synch, 
       en_synch => en_synch
     );

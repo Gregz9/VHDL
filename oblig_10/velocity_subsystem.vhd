@@ -11,7 +11,8 @@ entity velocity_subsystem is
       SA        : in std_logic; 
       SB        : in std_logic; 
       abcdefg   : out std_logic_vector(6 downto 0); 
-      c         : out std_logic
+      c         : out std_logic; 
+      synch_velocity : out signed(7 downto 0); 
     );
 end entity velocity_subsystem;
 
@@ -60,6 +61,15 @@ architecture structural of velocity_subsystem is
       c         : out std_logic
       );
     end component seg7ctrl; 
+
+  component velocity_synchronizer  
+    port( 
+      clk	: in std_logic; 
+      reset 	: in std_logic; 
+      velocity  : in signed(7 downto 0);
+      synch_velocity: out signed(7 downto 0)
+      );
+  end component velocity_reader;
   
   signal sub_synch_a : std_logic; 
   signal sub_synch_b : std_logic;
@@ -97,6 +107,15 @@ begin
         pos_dec => sub_pos_dec,
         velocity => sub_velocity
       );
+
+  VEL_SYNCH : velocity_synchronizer 
+  port map( 
+        clk => clk, 
+        reset => reset, 
+        velocity => sub_velocity, 
+        synch_velocity => synch_velocity
+      ); 
+        
 
   SEG7 : seg7ctrl 
   port map(

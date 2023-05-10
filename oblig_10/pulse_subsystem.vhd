@@ -18,6 +18,15 @@ architecture structural of pulse_subsystem is
 
 -- Component declaration
 
+  component dutycycle_synchronizer is 
+    port( 
+      clk	: in std_logic; 
+      reset 	: in std_logic; 
+      dutycycle : in std_logic_vector(7 downto 0); 
+      synch_dutycycle : out std_logic_vector(7 downto 0)
+    ); 
+  end component dutycycle_synchronizer; 
+
   component pulse_width_modulator is
     port( 
       mclk      : in std_logic; 
@@ -41,14 +50,23 @@ architecture structural of pulse_subsystem is
 
   signal sub_dir : std_logic; 
   signal sub_en  : std_logic; 
+  signal synch_duty : std_logic_vector(7 downto 0); 
 
 begin 
+
+  DUSYNCH : dutycycle_synchronizer
+  port map( 
+        clk => clk, 
+        reset => reset, 
+        dutycycle => duty_cycle, 
+        synch_dutycycle => synch_duty 
+ 	); 
 
   PWM : pulse_width_modulator
   port map( 
         mclk => clk, 
         reset => reset, 
-        duty_cycle => duty_cycle, 
+        duty_cycle => synch_duty, 
         dir => sub_dir, 
         en => sub_en
       ); 
